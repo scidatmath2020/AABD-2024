@@ -1,0 +1,432 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Clase: Funciones en PostgreSQL"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Objetivos de la Clase\n",
+    "- Comprender qué son las funciones en PostgreSQL.\n",
+    "- Aprender a crear y usar funciones.\n",
+    "- Explorar diferentes tipos de funciones: SQL, PL/pgSQL.\n",
+    "- Entender cómo manejar parámetros y valores de retorno.\n",
+    "- Conocer las funciones avanzadas y cómo depurarlas."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Materiales Necesarios\n",
+    "- Acceso a una instalación de PostgreSQL.\n",
+    "- Cliente de PostgreSQL (pgAdmin, psql, etc.).\n",
+    "- Conocimientos básicos de SQL y PostgreSQL."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 1. Introducción a las Funciones en PostgreSQL"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 1.1 ¿Qué es una función?\n",
+    "- **Definición**: Una función en PostgreSQL es un bloque de código que se puede ejecutar bajo demanda y puede devolver un valor.\n",
+    "- **Ventajas**: Reutilización de código, modularidad, mejora del rendimiento."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 1.2 Tipos de funciones en PostgreSQL\n",
+    "- Funciones SQL.\n",
+    "- Funciones PL/pgSQL.\n",
+    "- Funciones en otros lenguajes (Python, Perl, etc.)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 2. Creación de Funciones SQL"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 2.1 Sintaxis básica"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION nombre_funcion(param1 tipo1, param2 tipo2) \n",
+    "RETURNS tipo_retorno AS $$\n",
+    "BEGIN\n",
+    "    -- cuerpo de la función\n",
+    "END;\n",
+    "$$ LANGUAGE sql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 2.2 Ejemplo simple"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION saludar(nombre TEXT) \n",
+    "RETURNS TEXT AS $$\n",
+    "BEGIN\n",
+    "    RETURN 'Hola, ' || nombre || '!';\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 2.3 Llamar a una función"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "SELECT saludar('Juan');"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 3. Funciones PL/pgSQL"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 3.1 Introducción a PL/pgSQL\n",
+    "- Lenguaje procedimental de PostgreSQL.\n",
+    "- Permite usar estructuras de control como loops y condiciones."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 3.2 Crear una función PL/pgSQL"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION calcular_area_circulo(radio FLOAT) \n",
+    "RETURNS FLOAT AS $$\n",
+    "DECLARE\n",
+    "    area FLOAT;\n",
+    "BEGIN\n",
+    "    area := PI() * radio^2;\n",
+    "    RETURN area;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 3.3 Manejo de excepciones"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION dividir(numerador FLOAT, denominador FLOAT) \n",
+    "RETURNS FLOAT AS $$\n",
+    "BEGIN\n",
+    "    IF denominador = 0 THEN\n",
+    "        RAISE EXCEPTION 'División por cero no permitida';\n",
+    "    ELSE\n",
+    "        RETURN numerador / denominador;\n",
+    "    END IF;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 4. Parámetros y Valores de Retorno"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 4.1 Parámetros de entrada y salida"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION calcular_area_y_perimetro_circulo(radio FLOAT) \n",
+    "RETURNS TABLE (area FLOAT, perimetro FLOAT) AS $$\n",
+    "BEGIN\n",
+    "    RETURN QUERY SELECT PI() * radio^2, 2 * PI() * radio;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 4.2 Ejemplo con parámetros IN y OUT"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION dividir_y_multiplicar(a INT, b INT, OUT division FLOAT, OUT multiplicacion INT) \n",
+    "AS $$\n",
+    "BEGIN\n",
+    "    division := a::FLOAT / b;\n",
+    "    multiplicacion := a * b;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 5. Funciones Avanzadas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 5.1 Funciones con cursors"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION listar_usuarios() \n",
+    "RETURNS SETOF RECORD AS $$\n",
+    "DECLARE\n",
+    "    rec RECORD;\n",
+    "BEGIN\n",
+    "    FOR rec IN SELECT id, nombre FROM usuarios LOOP\n",
+    "        RETURN NEXT rec;\n",
+    "    END LOOP;\n",
+    "    RETURN;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 5.2 Funciones recursivas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION factorial(n INT) \n",
+    "RETURNS INT AS $$\n",
+    "BEGIN\n",
+    "    IF n = 0 THEN\n",
+    "        RETURN 1;\n",
+    "    ELSE\n",
+    "        RETURN n * factorial(n - 1);\n",
+    "    END IF;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 6. Depuración de Funciones"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 6.1 Uso de RAISE para depuración"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION debug_funcion(x INT) \n",
+    "RETURNS VOID AS $$\n",
+    "BEGIN\n",
+    "    RAISE NOTICE 'El valor de x es %', x;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 6.2 Herramientas de depuración\n",
+    "- PgAdmin (incluye un debugger integrado).\n",
+    "- Extensiones como `plpgsql_check`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 7. Práctica"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 7.1 Ejercicio 1: Crear una función que calcule el área de un rectángulo"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION calcular_area_rectangulo(largo FLOAT, ancho FLOAT) \n",
+    "RETURNS FLOAT AS $$\n",
+    "BEGIN\n",
+    "    RETURN largo * ancho;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 7.2 Ejercicio 2: Crear una función que devuelva el nombre completo de un usuario dado su ID"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "CREATE FUNCTION obtener_nombre_completo(usuario_id INT) \n",
+    "RETURNS TEXT AS $$\n",
+    "DECLARE\n",
+    "    nombre TEXT;\n",
+    "    apellido TEXT;\n",
+    "BEGIN\n",
+    "    SELECT nombre, apellido INTO nombre, apellido FROM usuarios WHERE id = usuario_id;\n",
+    "    RETURN nombre || ' ' || apellido;\n",
+    "END;\n",
+    "$$ LANGUAGE plpgsql;"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 8. Conclusión\n",
+    "- Resumen de los conceptos aprendidos.\n",
+    "- Importancia de las funciones en la administración y optimización de bases de datos.\n",
+    "- Recomendación de buenas prácticas: documentar funciones, manejar excepciones correctamente, etc."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Recursos Adicionales\n",
+    "- [Documentación oficial de PostgreSQL](https://www.postgresql.org/docs/)\n",
+    "- [Tutoriales y guías en línea sobre PL/pgSQL](https://www.postgresqltutorial.com/postgresql-plpgsql/)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "SQL",
+   "language": "sql",
+   "name": "sql"
+  },
+  "language_info": {
+   "name": "sql"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
