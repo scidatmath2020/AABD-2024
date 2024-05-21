@@ -1,0 +1,5 @@
+ID_Libro,Título,ISBN,Autor,Género,Precio,Nombre_Cliente,Apellido_Cliente,Correo_Cliente,Fecha_Venta,Cantidad,Precio_Unitario
+1,El gran Gatsby,9781234567890,F. Scott Fitzgerald,Ficción,15.00,Juan,Pérez,juan.perez@gmail.com,2023-01-15,2,15.00
+2,Cien años de soledad,9789876543210,Gabriel García Márquez,Ficción,20.00,Ana,Gómez,ana.gomez@gmail.com,2023-01-16,1,20.00
+3,Orgullo y prejuicio,9781593080204,Jane Austen,Romance,10.00,Juan,Pérez,juan.perez@gmail.com,2023-01-15,1,10.00
+4,Don Quijote de la Mancha,9788420410005,Miguel de Cervantes,Clásico,25.00,María,López,maria.lopez@gmail.com,2023-01-17,3,25.00
