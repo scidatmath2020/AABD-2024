@@ -1,0 +1,48 @@
+Supongamos que eres el administrador de la base de datos de una tienda departamental de ventas en línea. Por supuesto que tienes clientes y proveedores.
+Se te presenta la siguiente base de datos:
+
+* Usuarios
+-UsuarioID 
+-Nombre
+-Apellido
+-Email
+-Contraseña
+-Direccion
+-Telefono
+
+* Productos
+-ProductoID 
+-Nombre
+-Descripcion
+-Precio
+-Stock
+-CategoriaID 
+-ProveedorID 
+
+* Categorias
+-CategoriaID 
+-Nombre
+-Descripcion
+
+*Proveedores
+-ProveedorID 
+-Nombre
+-Contacto
+-Telefono
+-Email
+-Direccion
+
+*Pedidos
+-PedidoID 
+-UsuarioID 
+-FechaPedido
+-Estado
+
+* DetallePedido
+-DetalleID
+-PedidoID
+-ProductoID
+-Cantidad
+-Precio
+
+Realiza el diagrama de entidad relación de la base de datos anterior.
