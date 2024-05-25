@@ -1,0 +1,40 @@
+-------------Limpieza de datos-------------
+
+* Quedarse únicamente con quienes estén confirmados
+  con covid
+* Quedarse únicamente con quienes se conoce la 
+  entidad de residencia
+
+-------------Enfermedad y decesos-------------
+
+* Contar el total de contagios
+* Contar el total de defunciones
+* Calcular el porcentaje de defunciones respecto
+  de contagios
+* Mostrar las 10 entidades con mas contagios junto
+  junto con el total de contagios
+* Mostrar las 32 entidades con contagios segregados
+  por sexo
+* Encontrar la fecha con más contagios registrados.
+- ¿Cuántos contagios hubo en esa fecha?
+- ¿En qué entidades se dieron esos contagios?
+  (tres entidades)
+- ¿Qué porcentaje representó cada una de esas 
+  entidades respecto del total de contagios de 
+  dicha fecha?
+- ¿En qué fecha se dio la mayor cantidad de muertes?
+
+-------------Condición de intubación-------------
+
+* Calcular de cuántos se conoce la condición
+* Calcular total de intubados y porcentaje respecto
+  de condición de intubación
+* Calcular total de muertes con condición de intubación
+  conocida
+* Calcular qué porcentaje de las muertes anteriores
+  requirió intubación
+
+-------------Distribución porcentual de contagios-------------
+
+Mostrar, del total de contagios, la tabla de Pareto
+respecto de las entidades
